@@ -1,22 +1,56 @@
 import logo from './logo.svg';
 import './App.css';
+import { Button, Container, Row, Col, InputGroup, ToggleButton } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
 
-function App() {
+
+const App = () => {
+  const [checked, setChecked] = useState(
+    localStorage.getItem("theme") === "dark" ? true : false
+  );
+
+  useEffect(() => {
+    document
+      .getElementsByTagName("HTML")[0]
+      .setAttribute("data-theme", localStorage.getItem("theme"));
+  }, [checked]);
+
+
+  const toggleThemeChange = () => {
+    if (checked === false) {
+      localStorage.setItem("theme", "dark");
+      setChecked(true);
+    } else {
+      localStorage.setItem("theme", "light");
+      setChecked(false);
+    }
+  };
   return (
     <div className="App">
       <header className="App-header">
+        <Container>
+          <Row>
+            <Col sm={10}></Col>
+            <Col sm={2}>
+              <Button variant="light" >Light</Button>
+              <Button variant="dark">Dark</Button>{' '}
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={10}></Col>
+            <Col sm={2}>
+              <input
+                type="checkbox"
+                defaultChecked={checked}
+                onChange={() => toggleThemeChange()}
+              />
+            </Col>
+          </Row>
+        </Container>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Esta es una prueba para aprender a aplicar modo obscuro a mis proyectos
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
